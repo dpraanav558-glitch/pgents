@@ -8,6 +8,7 @@ class Com100X:
         self.compressor = PromptCompressor(
             model_name="microsoft/llmlingua-2-xlm-roberta-large-meetingbank",
             use_llmlingua2=True,
+            device_map="cpu",
         )
         print("Com100X Core Ready.")
 
