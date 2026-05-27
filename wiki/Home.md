@@ -8,6 +8,8 @@ This wiki contains comprehensive guides on installing, configuring, and running 
 - [[Home]] - Main Overview and Getting Started
 - [[Com100X-Engine]] - Local Prompt Compression Microservice & CPU Patching
 - [[Chrome-Extension-Bridge]] - Zero-API Extension Bridge Setup
+- [[Preloaded-Skills]] - The 10 Deterministic AI Skills & Custom Prompts
+- [[Troubleshooting-and-FAQ]] - Common Errors, Port Collisions, and Fallbacks
 
 ---
 
