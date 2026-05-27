@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "Pgents Browser Bridge",
+  "version": "1.0",
+  "description": "Pgents Browser Bridge — connects your Pgents dashboard to AI providers via the browser.",
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "*://localhost/*",
+    "*://127.0.0.1/*",
+    "*://gemini.google.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://localhost/*", "*://127.0.0.1/*"],
+      "js": ["content_dashboard.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["*://gemini.google.com/*"],
+      "js": ["content_gemini.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

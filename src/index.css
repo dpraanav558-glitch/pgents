@@ -1,0 +1,878 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── THEME TOKENS ───────────────────────────────────────────── */
+:root {
+  --font-header: 'Playfair Display', Georgia, serif;
+  --font-body: 'Outfit', 'Inter', sans-serif;
+  --font-input: Arial, sans-serif;
+
+  --bg-color: #050505;
+  --panel-bg: rgba(18, 18, 18, 0.75);
+  --panel-border: rgba(255, 255, 255, 0.04);
+  --nav-bg: rgba(18, 18, 18, 0.7);
+  --text-primary: #f8fafc;
+  --text-secondary: #b8b8b8;
+  --text-muted: #626262;
+  --input-bg: #1e1e1e;
+  --input-border: rgba(255, 255, 255, 0.03);
+  --bubble-user-bg: linear-gradient(135deg, #2b2b2b 0%, #1a1a1a 100%);
+  --bubble-user-text: #ffffff;
+  --bubble-assistant-bg: rgba(18, 18, 18, 0.7);
+  --bubble-assistant-text: #b8b8b8;
+  --accent-color: #DD2D4A;
+  --accent-hover: #F26A8D;
+  --system-log-bg: rgba(41, 8, 14, 0.8);
+  --system-log-border: rgba(221, 45, 74, 0.15);
+  --system-log-text: #F26A8D;
+  --flow-grad-start: #120406;
+  --flow-grad-end: #1f070b;
+  --sidebar-hover-bg: rgba(255, 255, 255, 0.05);
+}
+
+.light-theme {
+  --bg-color: #f7f3f4;
+  --panel-bg: rgba(255, 255, 255, 0.8);
+  --panel-border: rgba(221, 45, 74, 0.08);
+  --nav-bg: rgba(255, 255, 255, 0.85);
+  --text-primary: #1f1214;
+  --text-secondary: #655458;
+  --text-muted: #a09093;
+  --input-bg: #ffffff;
+  --input-border: rgba(221, 45, 74, 0.15);
+  --bubble-user-bg: linear-gradient(135deg, #e8dfdf 0%, #d8cdce 100%);
+  --bubble-user-text: #1f1214;
+  --bubble-assistant-bg: rgba(255, 255, 255, 0.75);
+  --bubble-assistant-text: #655458;
+  --accent-color: #DD2D4A;
+  --accent-hover: #F26A8D;
+  --system-log-bg: rgba(255, 235, 238, 0.9);
+  --system-log-border: rgba(221, 45, 74, 0.2);
+  --system-log-text: #DD2D4A;
+  --flow-grad-start: #fcedf0;
+  --flow-grad-end: #f4d3d8;
+  --sidebar-hover-bg: rgba(221, 45, 74, 0.05);
+}
+
+/* ─── BASE ───────────────────────────────────────────────────── */
+@layer base {
+  * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    @apply overflow-hidden;
+    font-family: var(--font-body);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  ::selection {
+    background-color: var(--accent-color);
+    color: white;
+  }
+
+  /* Custom scrollbars */
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(221, 45, 74, 0.15); border-radius: 9999px; }
+  ::-webkit-scrollbar-thumb:hover { background-color: var(--accent-color); }
+}
+
+/* ─── SPOTIFY DESIGN SYSTEM ──────────────────────────────────── */
+@layer components {
+
+  /* Main Spotify Tiled Layout */
+  .spotify-container {
+    @apply flex flex-col h-screen;
+    background-color: var(--bg-color);
+    color: var(--text-secondary);
+    transition: background-color 0.3s ease;
+  }
+
+  .spotify-workspace {
+    @apply flex flex-1 overflow-hidden p-3 gap-3;
+  }
+
+  /* Spotify Tiled Panels */
+  .spotify-panel {
+    @apply rounded-xl flex flex-col overflow-hidden transition-all duration-300;
+    background: var(--panel-bg);
+    backdrop-filter: blur(24px);
+    border: 1px solid var(--panel-border);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  }
+
+  .spotify-sidebar {
+    @apply flex flex-col overflow-hidden transition-all duration-300 w-[290px] min-w-[290px] shrink-0 gap-3;
+  }
+
+  .spotify-main {
+    @apply rounded-xl flex flex-col overflow-hidden transition-all duration-300 flex-1 relative;
+    border: 1px solid var(--panel-border);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  }
+
+  /* Navigation & Library Boxes */
+  .spotify-nav-box {
+    @apply rounded-xl p-4 flex flex-col gap-3.5 shrink-0;
+    background: var(--nav-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--panel-border);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  }
+
+  .spotify-nav-link {
+    @apply flex items-center gap-4 text-sm font-bold text-neutral-400 hover:text-white transition-all cursor-pointer py-1;
+  }
+  .spotify-nav-link:hover {
+    color: var(--text-primary);
+  }
+  .spotify-nav-link.active {
+    color: var(--text-primary);
+  }
+
+  .spotify-library-box {
+    @apply rounded-xl flex-1 flex flex-col overflow-hidden;
+    background: var(--nav-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--panel-border);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  }
+
+  /* Library Skill Items with Crimson Highlight Line */
+  .spotify-skill-item {
+    @apply flex items-center gap-3 p-2.5 rounded-md cursor-pointer relative overflow-hidden transition-all duration-300 hover:bg-neutral-800/20 hover:scale-[1.02] active:scale-[0.98];
+  }
+  .light-theme .spotify-skill-item:hover {
+    @apply bg-neutral-200/50;
+  }
+  .spotify-skill-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 20%;
+    height: 60%;
+    width: 3px;
+    background: var(--accent-color);
+    border-radius: 99px;
+    opacity: 0;
+    transform: scaleY(0.4);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .spotify-skill-item.active::before {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+  .spotify-skill-item.active {
+    background: rgba(221, 45, 74, 0.08);
+    color: var(--text-primary);
+  }
+  .spotify-skill-item.active .skill-title {
+    color: var(--text-primary);
+  }
+
+  /* Custom album covers for skills */
+  .spotify-cover {
+    @apply w-11 h-11 rounded-md flex items-center justify-center shrink-0 shadow-lg relative overflow-hidden transition-transform duration-300;
+  }
+  .spotify-skill-item:hover .spotify-cover {
+    transform: scale(1.04);
+  }
+
+  /* Chat Window Styling */
+  .spotify-chat-container {
+    @apply flex-1 overflow-y-auto px-6 py-4 flex flex-col;
+  }
+
+  .spotify-message-row {
+    @apply flex w-full mb-5 msg-appear;
+  }
+  
+  .spotify-message-row.user {
+    @apply justify-end;
+  }
+
+  .spotify-bubble-user {
+    @apply max-w-[70%] px-4 py-3 rounded-2xl rounded-tr-sm text-sm leading-relaxed shadow-md;
+    background: var(--bubble-user-bg);
+    color: var(--bubble-user-text);
+    border: 1px solid var(--panel-border);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  .spotify-bubble-assistant {
+    @apply max-w-[80%] px-5 py-4 rounded-2xl rounded-tl-sm text-sm leading-relaxed shadow-lg relative;
+    background: var(--bubble-assistant-bg);
+    color: var(--bubble-assistant-text);
+    border-left: 3px solid var(--accent-color);
+    border-top: 1px solid var(--panel-border);
+    border-right: 1px solid var(--panel-border);
+    border-bottom: 1px solid var(--panel-border);
+  }
+  .spotify-bubble-assistant:hover {
+    color: var(--text-primary);
+  }
+
+  /* System Logs */
+  .spotify-system-log {
+    @apply flex items-center gap-2.5 px-4 py-2 rounded-md text-[11px] font-mono mx-auto my-3 shadow-md;
+    color: var(--system-log-text);
+    background-color: var(--system-log-bg);
+    border: 1px solid var(--system-log-border);
+  }
+
+  /* Input Box inside Chat */
+  .spotify-chat-input-wrapper {
+    @apply px-6 py-4 bg-transparent shrink-0;
+    border-t: 1px solid var(--panel-border);
+  }
+
+  .spotify-textarea-container {
+    @apply flex items-end gap-3 rounded-sm px-5 py-2.5 transition-all duration-300;
+    background: var(--input-bg);
+    border: 1px solid var(--panel-border);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+  }
+  .spotify-textarea-container:focus-within {
+    border-color: rgba(221, 45, 74, 0.35);
+    box-shadow: 0 0 18px rgba(221, 45, 74, 0.12), inset 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .spotify-textarea {
+    @apply flex-1 bg-transparent border-none text-sm placeholder-neutral-500
+           outline-none resize-none py-1 max-h-32 min-h-[22px] leading-relaxed;
+    color: var(--text-primary);
+  }
+
+  /* Configuration Box (Sidebar LLM Settings Popup style inside Modal) */
+  .spotify-config-box {
+    @apply rounded-xl p-4 flex flex-col gap-2.5 shrink-0;
+    background: radial-gradient(circle at 10% 20%, rgba(221, 45, 74, 0.04) 0%, rgba(18, 18, 18, 0.75) 85%);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(221, 45, 74, 0.15);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  }
+
+  .spotify-slider {
+    @apply w-full h-1 rounded-full appearance-none cursor-pointer outline-none;
+    background: var(--text-muted);
+    accent-color: var(--accent-color);
+  }
+
+  /* Badge styling */
+  .badge {
+    @apply inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-bold tracking-wider uppercase;
+  }
+  .badge-orange { @apply bg-[#DD2D4A]/15 text-[#F26A8D] border border-[#DD2D4A]/25; }
+  .badge-gray   { @apply bg-neutral-800/80 text-neutral-400 border border-neutral-700/60; }
+  .light-theme .badge-gray { @apply bg-neutral-200/80 text-neutral-500 border border-neutral-300; }
+  .badge-pink   { @apply bg-[#F49CBB]/15 text-[#F49CBB] border border-[#F49CBB]/25; }
+  .badge-ice    { @apply bg-[#CBEEF3]/15 text-[#CBEEF3] border border-[#CBEEF3]/25; }
+
+  /* Input fields in builder/zip/settings panels */
+  .spotify-input {
+    @apply border rounded-md px-3 py-2 text-xs outline-none transition-all w-full;
+    background: var(--input-bg);
+    border-color: var(--panel-border);
+    color: var(--text-primary);
+  }
+  .spotify-input:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 1px var(--accent-color);
+  }
+
+  /* Panel slide-in overlays */
+  .spotify-panel-overlay {
+    @apply fixed inset-0 z-50 flex justify-start;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+  }
+
+  .spotify-panel-slide {
+    @apply relative flex flex-col border-r h-full overflow-y-auto p-6 shadow-2xl;
+    width: 440px;
+    background-color: var(--bg-color);
+    border-color: var(--panel-border);
+  }
+
+  /* Settings Modal Structure (Floating Overlay) */
+  .spotify-modal-overlay {
+    @apply fixed inset-0 z-50 flex items-center justify-center p-4;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+  }
+
+  .spotify-modal-card {
+    @apply w-full max-w-2xl rounded-2xl overflow-hidden flex flex-col border shadow-2xl;
+    background: var(--bg-color);
+    border-color: var(--panel-border);
+    height: 520px;
+    animation: scaleUpPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  .spotify-modal-sidebar {
+    @apply w-[180px] shrink-0 border-r p-4 flex flex-col gap-2 bg-neutral-900/20;
+    border-color: var(--panel-border);
+  }
+  .light-theme .spotify-modal-sidebar {
+    background-color: rgba(221, 45, 74, 0.02);
+  }
+
+  .spotify-modal-tab-btn {
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-bold text-neutral-400 hover:text-white transition-all text-left;
+  }
+  .light-theme .spotify-modal-tab-btn {
+    color: var(--text-secondary);
+  }
+  .light-theme .spotify-modal-tab-btn:hover {
+    color: var(--text-primary);
+  }
+  .spotify-modal-tab-btn.active {
+    background-color: var(--sidebar-hover-bg);
+    color: var(--text-primary);
+  }
+  .light-theme .spotify-modal-tab-btn.active {
+    background-color: rgba(221, 45, 74, 0.08);
+    color: var(--text-primary);
+  }
+
+  .spotify-modal-content {
+    @apply flex-1 p-6 overflow-y-auto flex flex-col;
+  }
+
+  /* Header interactive dropdown selection */
+  .header-model-picker-btn {
+    @apply flex items-center gap-2 bg-neutral-800/80 hover:bg-neutral-800 text-xs font-bold px-4 py-2 rounded-full border transition-all text-neutral-300 hover:text-white hover:scale-105 active:scale-95;
+    border-color: var(--panel-border);
+  }
+  .light-theme .header-model-picker-btn {
+    @apply bg-white hover:bg-neutral-100 text-neutral-700 hover:text-neutral-900;
+  }
+
+  /* Markdown Rendering Inside Chat */
+  .md-chat h1 { @apply text-base font-bold text-neutral-100 mb-2 mt-3 first:mt-0; }
+  .light-theme .md-chat h1 { @apply text-neutral-800; }
+  .md-chat h2 { @apply text-sm font-bold text-[#F26A8D] mb-1.5 mt-2.5; }
+  .md-chat h3 { @apply text-xs font-semibold text-[#F49CBB] mb-1 mt-2; }
+  .md-chat h4 { @apply text-xs font-semibold text-neutral-300 mb-0.5 mt-1.5 uppercase tracking-wide; }
+  .light-theme .md-chat h4 { @apply text-neutral-500; }
+  .md-chat p  { @apply text-sm text-neutral-300 leading-relaxed mb-2.5 last:mb-0; }
+  .light-theme .md-chat p { @apply text-neutral-700; }
+  .md-chat ul { @apply list-none pl-0 mb-2.5 space-y-1; }
+  .md-chat ol { @apply list-decimal pl-5 mb-2.5 space-y-1; }
+  .md-chat li { @apply text-sm text-neutral-300 flex items-start gap-1.5; }
+  .light-theme .md-chat li { @apply text-neutral-700; }
+  .md-chat ul > li::before { content: '▸'; @apply text-[#DD2D4A] text-xs mt-0.5 shrink-0; }
+  .md-chat strong { @apply text-neutral-100 font-semibold; }
+  .light-theme .md-chat strong { @apply text-neutral-900; }
+  .md-chat em { @apply text-[#F49CBB] italic; }
+  .md-chat code {
+    @apply bg-neutral-800/80 text-[#F26A8D] text-[11px] px-1.5 py-0.5 rounded font-mono border border-neutral-700/30;
+  }
+  .light-theme .md-chat code {
+    @apply bg-neutral-200/50 text-[#DD2D4A] border-neutral-300/30;
+  }
+  .md-chat hr  { @apply border-neutral-800 my-3; }
+  .md-chat blockquote {
+    @apply border-l-2 border-[#DD2D4A] pl-3 italic text-neutral-500 my-2;
+  }
+  .md-chat table { @apply w-full border-collapse mb-3.5 text-xs; }
+  .md-chat th {
+    @apply bg-[#1c1c1c] text-neutral-200 font-semibold text-left px-3 py-2
+           border border-neutral-800 uppercase tracking-wide;
+  }
+  .light-theme .md-chat th {
+    @apply bg-neutral-200/80 text-neutral-700 border-neutral-300;
+  }
+  .md-chat td { @apply px-3 py-2 border border-neutral-800/80 text-neutral-400; }
+  .light-theme .md-chat td { @apply border-neutral-300/60 text-neutral-600; }
+  .md-chat tr:nth-child(even) td { @apply bg-[#141414]; }
+  .light-theme .md-chat tr:nth-child(even) td { @apply bg-neutral-100/40; }
+
+  /* IDE-style Code Block Wrapper */
+  .code-block-wrapper {
+    @apply rounded-lg overflow-hidden border border-neutral-800/80 my-3.5 flex flex-col;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    border-color: var(--panel-border);
+  }
+
+  .code-block-header {
+    @apply flex items-center justify-between px-4 py-2 bg-[#1c1c1c] text-[10px] font-mono text-neutral-400 select-none;
+    border-color: var(--panel-border);
+    border-bottom-width: 1px;
+  }
+  .light-theme .code-block-header {
+    @apply bg-neutral-200 text-neutral-600;
+  }
+
+  .code-block-lang {
+    @apply font-bold text-neutral-300 uppercase tracking-wider;
+  }
+  .light-theme .code-block-lang {
+    @apply text-neutral-700;
+  }
+
+  .code-block-copy-btn {
+    @apply cursor-pointer hover:text-white transition-all text-neutral-500 font-bold px-2 py-0.5 rounded bg-neutral-800/40 hover:bg-neutral-800 border border-neutral-800/60 hover:border-neutral-700;
+  }
+  .light-theme .code-block-copy-btn {
+    @apply bg-neutral-300/40 border-neutral-300/80 text-neutral-600 hover:text-neutral-900;
+  }
+
+  .code-block-copy-btn.copied {
+    @apply text-[#F26A8D] border-[#DD2D4A]/30 bg-[#DD2D4A]/10;
+  }
+
+  .code-block-wrapper pre {
+    @apply m-0 border-none rounded-none p-4 bg-[#0a0a0a] overflow-x-auto;
+  }
+  .light-theme .code-block-wrapper pre {
+    @apply bg-neutral-50;
+  }
+  .code-block-wrapper pre code { @apply bg-transparent text-[#26e67b] p-0 text-[11px] font-mono leading-relaxed; }
+  .light-theme .code-block-wrapper pre code { @apply text-neutral-800; }
+}
+
+/* ─── STREAMING CURSOR ───────────────────────────────────────── */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+.streaming-cursor::after {
+  content: '▊';
+  color: var(--accent-hover);
+  margin-left: 2px;
+  animation: blink 0.8s step-end infinite;
+}
+
+/* ─── EVENT ANIMATIONS ───────────────────────────────────────── */
+@keyframes slideUpFade {
+  0% { opacity: 0; transform: translateY(18px) scale(0.97); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.msg-appear {
+  animation: slideUpFade 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1) forwards;
+}
+
+@keyframes panelSlide {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0); }
+}
+.panel-slide-in { animation: panelSlide 0.25s cubic-bezier(0.16,1,0.3,1) forwards; }
+
+/* Modal popup animation scaleUpPop */
+@keyframes scaleUpPop {
+  0% { opacity: 0; transform: scale(0.9) translateY(20px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ─── BREATHING NEON GLOW ────────────────────────────────────── */
+@keyframes breatheGlow {
+  0%, 100% { 
+    box-shadow: 0 0 4px rgba(221, 45, 74, 0.25), 0 4px 12px rgba(0,0,0,0.4); 
+    border-color: rgba(221, 45, 74, 0.15);
+  }
+  50% { 
+    box-shadow: 0 0 16px rgba(221, 45, 74, 0.65), 0 4px 24px rgba(0,0,0,0.6); 
+    border-color: rgba(221, 45, 74, 0.55);
+  }
+}
+.active-glow {
+  animation: breatheGlow 2.5s ease-in-out infinite;
+  border: 1px solid rgba(221, 45, 74, 0.35) !important;
+}
+
+/* ─── FLOWING GRADIENT ───────────────────────────────────────── */
+@keyframes flowGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animate-flow-gradient {
+  background: linear-gradient(-45deg, var(--flow-grad-start), var(--flow-grad-end), var(--bg-color));
+  background-size: 300% 300%;
+  animation: flowGradient 15s ease-in-out infinite;
+}
+
+/* ─── NAV LINK LIGHT THEME OVERRIDES ────────────────────────── */
+.light-theme .spotify-nav-link {
+  color: var(--text-secondary);
+}
+.light-theme .spotify-nav-link:hover {
+  color: var(--text-primary);
+}
+.light-theme .spotify-nav-link.active {
+  color: var(--text-primary);
+}
+
+/* ─── WEBDESIGNAWARDS.IO VISUAL LANGUAGE OVERRIDES ────────────────── */
+
+/* Typography Standardizations */
+h1, h2, h3, h4, h5, h6, 
+.skill-title, 
+.spotify-nav-link span, 
+.spotify-sidebar h2, 
+.spotify-main h1, 
+.spotify-main h2, 
+.spotify-main h3, 
+.spotify-main h4,
+.md-chat h1, 
+.md-chat h2, 
+.md-chat h3, 
+.md-chat h4 {
+  font-family: var(--font-header) !important;
+  letter-spacing: -0.01em;
+}
+
+/* Sharp, editorial grid and layout borders */
+.spotify-panel,
+.spotify-main,
+.spotify-nav-box,
+.spotify-library-box,
+.spotify-skill-item,
+.spotify-config-box,
+.spotify-modal-card,
+.code-block-wrapper {
+  border-radius: 4px !important;
+  border-color: rgba(255, 255, 255, 0.05) !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.light-theme .spotify-panel,
+.light-theme .spotify-main,
+.light-theme .spotify-nav-box,
+.light-theme .spotify-library-box,
+.light-theme .spotify-skill-item,
+.light-theme .spotify-config-box,
+.light-theme .spotify-modal-card,
+.light-theme .code-block-wrapper {
+  border-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Premium micro-interactions: slide underline for nav links */
+.spotify-nav-link {
+  position: relative;
+  overflow: visible;
+}
+.spotify-nav-link span {
+  position: relative;
+  display: inline-block;
+}
+.spotify-nav-link span::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--accent-color);
+  transform-origin: bottom right;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.spotify-nav-link:hover span::after,
+.spotify-nav-link.active span::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* Editorial Serif & Arial Form Rules */
+form,
+.spotify-panel-slide form,
+.spotify-modal-content form,
+.spotify-modal-content {
+  /* Form Labels & Headers to Serif */
+  label, 
+  legend, 
+  h3, 
+  h4 {
+    font-family: var(--font-header) !important;
+    font-weight: 700;
+    color: var(--text-primary) !important;
+    letter-spacing: 0.03em;
+  }
+
+  /* Form inputs, textareas, selects to Arial */
+  input, 
+  textarea, 
+  select,
+  .spotify-input,
+  .spotify-textarea {
+    font-family: var(--font-input) !important;
+    border-radius: 4px !important;
+    font-size: 13px !important;
+    letter-spacing: 0.01em;
+    background-color: var(--input-bg) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    transition: all 0.2s ease;
+  }
+
+  .light-theme input, 
+  .light-theme textarea, 
+  .light-theme select,
+  .light-theme .spotify-input,
+  .light-theme .spotify-textarea {
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  }
+
+  input:focus, 
+  textarea:focus, 
+  select:focus,
+  .spotify-input:focus {
+    border-color: var(--accent-color) !important;
+    box-shadow: 0 0 0 1px var(--accent-color) !important;
+  }
+
+  /* Form actions to Serif */
+  button[type="submit"],
+  .button-submit {
+    font-family: var(--font-header) !important;
+    font-weight: 700;
+    border-radius: 4px !important;
+    letter-spacing: 0.05em;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+
+/* Chat text area should also use Arial */
+.spotify-textarea {
+  font-family: var(--font-input) !important;
+}
+
+/* Welcome screen Com100X code container styling */
+.welcome-code-block {
+  font-family: 'JetBrains Mono', Courier, monospace !important;
+}
+
+/* User Selection Controls for Copyability */
+button, 
+a, 
+.spotify-sidebar,
+.badge,
+.spotify-cover {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.spotify-chat-container, 
+.md-chat, 
+.spotify-bubble-user,
+.spotify-bubble-assistant,
+code,
+pre,
+.welcome-code-block,
+textarea,
+input {
+  user-select: text !important;
+  -webkit-user-select: text !important;
+}
+
+/* ─── WEB DESIGN AWARDS HEADER DESIGN SYSTEM ─── */
+.header-action-btn,
+.header-bridge-container,
+.header-model-picker-btn,
+.header-profile-btn {
+  font-family: var(--font-header) !important;
+  font-weight: 700 !important;
+  font-size: 11px !important;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  height: 32px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  border-radius: 2px !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background-color: rgba(20, 20, 20, 0.4) !important;
+  color: var(--text-secondary) !important;
+  padding: 0 12px !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.light-theme .header-action-btn,
+.light-theme .header-bridge-container,
+.light-theme .header-model-picker-btn,
+.light-theme .header-profile-btn {
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  background-color: rgba(255, 255, 255, 0.6) !important;
+  color: var(--text-secondary) !important;
+}
+
+.header-action-btn:hover:not(:disabled),
+.header-model-picker-btn:hover,
+.header-profile-btn:hover {
+  color: var(--text-primary) !important;
+  border-color: var(--accent-color) !important;
+  background-color: rgba(221, 45, 74, 0.05) !important;
+  transform: translateY(-1px);
+}
+
+.header-action-btn:active:not(:disabled),
+.header-model-picker-btn:active,
+.header-profile-btn:active {
+  transform: translateY(0);
+}
+
+.header-action-btn:disabled {
+  opacity: 0.3 !important;
+  cursor: not-allowed !important;
+}
+
+.header-bridge-container button {
+  border-radius: 2px !important;
+}
+.header-bridge-container button div {
+  border-radius: 1px !important;
+}
+
+.header-profile-btn .badge {
+  border-radius: 1px !important;
+  font-size: 8px !important;
+  padding: 1px 3px !important;
+  margin-left: 4px;
+}
+
+/* Premium Square Pulsing Streaming Indicator */
+.streaming-status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 1px;
+  transition: all 0.3s ease;
+}
+.streaming-status-indicator.active {
+  background-color: var(--accent-color);
+  box-shadow: 0 0 8px var(--accent-color);
+  animation: squarePulse 1.5s infinite ease-in-out;
+}
+.streaming-status-indicator.idle {
+  background-color: var(--text-muted);
+}
+
+@keyframes squarePulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.3); opacity: 0.5; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Premium Button Styling System */
+.btn-premium {
+  font-family: 'Playfair Display', Georgia, serif !important;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 11px !important;
+  border-radius: 2px !important;
+  border: 1px solid var(--accent-color) !important;
+  background-color: var(--accent-color) !important;
+  color: #ffffff !important;
+  padding: 8px 16px !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  cursor: pointer;
+}
+.btn-premium:hover:not(:disabled) {
+  background-color: var(--accent-hover) !important;
+  border-color: var(--accent-hover) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(221, 45, 74, 0.25);
+}
+.btn-premium:active:not(:disabled) {
+  transform: translateY(0);
+}
+.btn-premium:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  border-color: var(--panel-border) !important;
+  background-color: var(--input-bg) !important;
+  color: var(--text-muted) !important;
+}
+
+.btn-premium-secondary {
+  font-family: 'Playfair Display', Georgia, serif !important;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 11px !important;
+  border-radius: 2px !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background-color: rgba(20, 20, 20, 0.4) !important;
+  color: var(--text-secondary) !important;
+  padding: 8px 16px !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  cursor: pointer;
+}
+.light-theme .btn-premium-secondary {
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  background-color: rgba(255, 255, 255, 0.6) !important;
+}
+.btn-premium-secondary:hover:not(:disabled) {
+  border-color: var(--accent-color) !important;
+  color: var(--text-primary) !important;
+  background-color: rgba(221, 45, 74, 0.05) !important;
+  transform: translateY(-1px);
+}
+.btn-premium-secondary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Textarea input elements */
+.textarea-attach-btn {
+  background-color: transparent !important;
+  color: var(--text-secondary) !important;
+  border-radius: 2px !important;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.textarea-attach-btn:hover:not(:disabled) {
+  background-color: var(--sidebar-hover-bg) !important;
+  color: var(--text-primary) !important;
+}
+
+.textarea-send-btn {
+  background-color: var(--accent-color) !important;
+  color: #ffffff !important;
+  border-radius: 2px !important;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.textarea-send-btn:hover:not(:disabled) {
+  background-color: var(--accent-hover) !important;
+  transform: translateY(-1px);
+}
+.textarea-send-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+.textarea-send-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  background-color: var(--text-muted) !important;
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+
+/* Light theme overrides for form fields and layouts */
+.light-theme .spotify-textarea-container {
+  background-color: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+.light-theme .spotify-textarea-container:focus-within {
+  border-color: var(--accent-color) !important;
+}
+
+.light-theme .spotify-panel-slide,
+.light-theme .spotify-modal-card {
+  background-color: #fcfcfc !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+.light-theme .spotify-modal-sidebar {
+  background-color: rgba(0, 0, 0, 0.02) !important;
+}
+
+.light-theme ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+}
+.light-theme ::-webkit-scrollbar-thumb:hover {
+  background-color: var(--accent-color);
+}

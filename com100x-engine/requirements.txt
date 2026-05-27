@@ -1,0 +1,5 @@
+fastapi==0.103.1
+uvicorn==0.23.2
+llmlingua==0.2.2
+torch==2.0.1
+accelerate==0.23.0
