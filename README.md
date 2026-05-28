@@ -12,7 +12,7 @@ Pgents operates on a **Bring Your Own Key (BYOK)** architecture, allowing you to
 - **OpenAI** (GPT-4o, GPT-4 Turbo, o1-Mini)
 - **Anthropic Claude** (3.5 Sonnet, 3 Opus)
 - **Groq** (Llama 3, Mixtral)
-- **Custom / Local** (Ollama, LM Studio)
+- **Custom / Local** (Ollama, LM Stu  dio)
 
 ### 2. Chrome Extension Bridge (Zero-API Mode)
 Don't want to pay for API keys? Pgents includes a custom **Browser Extension Bridge**. When "Bridge Mode" is enabled, the dashboard securely routes your prompts directly to a standard `gemini.google.com` tab. 
