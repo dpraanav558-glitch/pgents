@@ -536,6 +536,12 @@ export default function App() {
   const [attachments, setAttachments] = useState([]);
   const fileInputRef = useRef(null);
 
+  /**
+   * Handles user file selection and attachments.
+   * Reads files asynchronously, generating base64 data URLs for images,
+   * and prepends unique IDs to allow deleting individual attachments.
+   * @param {React.ChangeEvent<HTMLInputElement>} e - The input change event containing selected files.
+   */
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
     if (!files.length) return;
@@ -574,12 +580,22 @@ export default function App() {
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
+  /**
+   * Removes an attached file from the pending message attachments list.
+   * @param {string} id - The unique ID of the attachment to remove.
+   */
   const removeAttachment = (id) => {
     setAttachments(prev => prev.filter(att => att.id !== id));
   };
 
   const [speakingMessageId, setSpeakingMessageId] = useState(null);
 
+  /**
+   * Toggles the text-to-speech engine for a specific chat message.
+   * If the speech is already active, cancels it. Otherwise, cleanses Markdown
+   * and HTML tags from the message content and reads it aloud.
+   * @param {Object} msg - The message object containing content and id.
+   */
   const handleToggleSpeech = (msg) => {
     if (speakingMessageId === msg.id) {
       window.speechSynthesis.cancel();
@@ -609,6 +625,11 @@ export default function App() {
     };
   }, []);
 
+  /**
+   * Adds a new member to the local application user registry.
+   * Validates duplicate usernames, updates the state, and persists the registration in localStorage.
+   * @param {React.FormEvent} e - The form submission event.
+   */
   const handleAddMember = (e) => {
     e.preventDefault();
     if (!newMemberName || !newMemberPass) return;
@@ -624,6 +645,11 @@ export default function App() {
     alert("Member added successfully!");
   };
 
+  /**
+   * Logs a user into the application using credentials from local registered users.
+   * Updates current user state and persists authentication locally.
+   * @param {React.FormEvent} e - The form submission event.
+   */
   const handleLogin = (e) => {
     e.preventDefault();
     const u = loginUsername.trim().toLowerCase();
@@ -639,6 +665,10 @@ export default function App() {
     }
   };
 
+  /**
+   * Logs out the current user, cancels any active text-to-speech playback,
+   * and clears stored user session state.
+   */
   const handleLogout = () => {
     window.speechSynthesis.cancel();
     setSpeakingMessageId(null);
