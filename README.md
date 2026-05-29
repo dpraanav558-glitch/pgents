@@ -21,7 +21,7 @@ Don't want to pay for API keys? Pgents includes a custom **Browser Extension Bri
 
 ### 3. Com100X Prompt Compression Engine
 For complex tasks, system directives can consume thousands of tokens. Pgents standardizes on the **Com100X (FastAPI / LLMLingua-2)** semantic prompt compression engine. 
-- It communicates with a local Python microservice running the XLM-RoBERTa meetingbank model.
+- It communicates with a local Python mi croservice running the XLM-RoBERTa meetingbank model.
 - It semantically prunes low-information words from the prompt while preserving original intent and directives, saving up to 60% of context tokens and cutting down on API latency and costs.
 - If the Com100X microservice is offline, the client automatically falls back to raw directives transparently.
 
@@ -31,10 +31,10 @@ The platform comes pre-loaded with 10 highly engineered "Skills" designed to for
 - **SWOT Strategic Deep-Dive:** Generates systematic competitive SWOT frameworks.
 - **Enterprise Spec-Doc Engine:** Produces rigorously detailed system architecture docs and API contracts.
 - **Code Review Compiler:** Outputs multi-axis reviews (readability, security, performance) with a graded scorecard.
-- **API Integration Synthesizer:** Converts API schemas into SDK client boilerplates in Python, Node, and Go.
-- **SEO Semantic Optimizer:** Optimizes copy drafts matching exact keyword density ratios.
+- **API Integration Synthesizer:** Conve rts API schemas into SDK client boilerplates in Python, Node, and Go.
+- **SEO Semantic Optimizer:** Optimizes copy dra fts matching exact keyword density ratios.
 - **Database Schema Architect:** Translates system designs into index-optimized SQL/NoSQL schemas.
-- **Data Pipeline Synthesizer:** Generates Pandas data pipelines and profiling visuals.
+- **Data Pipeline Synthesizer:** Generates Pandas data  pipelines and profiling visuals.
 - **Security Hardening Compiler:** Exploits audit checklists, patch diff compiles, and container hardening.
 - **UX Copywriter & Tone Tuner:** Tuning alerts and microcopy to Brand voices (Professional, Playful, Emergency).
 
